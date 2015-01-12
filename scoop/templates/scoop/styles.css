@@ -1,0 +1,18 @@
+body  {
+    background-color: blanchedalmond;
+}
+
+.topnav {
+    text-align: center;
+    padding: 20px;
+    background-color: silver;
+    border: 1px solid purple;
+}
+
+a:link {
+    color: darkcyan;
+    padding-left: 40px;
+    background-color: silver;
+    background-size: 100px 50px;
+}
+
