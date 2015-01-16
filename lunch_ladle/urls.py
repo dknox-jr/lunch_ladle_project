@@ -10,6 +10,8 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^ll_home/', include('ll_home.urls')),
+
     url(r'^scoop/', include('scoop.urls')),
 
     url(r'^vendor/', include('vendor.urls'))

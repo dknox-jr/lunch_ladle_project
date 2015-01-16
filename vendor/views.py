@@ -11,6 +11,7 @@ from factual import Factual
 from django.views.decorators.csrf import csrf_exempt
 import urllib
 import requests
+import json
 
 factual = Factual('2ReKJ6iWVlbUs0B10VixjPGSMw1uLW5UQtL7tJgC', 'Xb0cE0OFsGp8zmGENU7j8T2hzoaNH9cpYvj80WKC')
 
@@ -19,10 +20,47 @@ factual = Factual('2ReKJ6iWVlbUs0B10VixjPGSMw1uLW5UQtL7tJgC', 'Xb0cE0OFsGp8zmGEN
 def scan(request):
     if request.method == "POST":
         upc = request.POST["scan"]
-        data = {"KEY": "2ReKJ6iWVlbUs0B10VixjPGSMw1uLW5UQtL7tJgC", "q": upc, }
+        data = {"KEY": "2ReKJ6iWVlbUs0B10VixjPGSMw1uLW5UQtL7tJgC", "q": upc}
         params = urllib.urlencode(data)
-#        f = "http://api.v3.factual.com/t/products-cpg-nutrition?select=product_name,%20ingredients"
-        url = "http://api.v3.factual.com/t/products-cpg-nutrition?select=product_name,%20ingredients&" + params
-        print url
-#    return render(request, 'vendor/scan.html')
-    return HttpResponse("<h1> it's alive!</hr>")
+        url = ("http://api.v3.factual.com/t/products-cpg-nutrition?select=product_name,%20ingredients&" +
+               params)
+        f = urllib.urlopen(url)
+        # print (f.read())
+        j = f.read()
+        json_response = json.loads(j)
+        print json_response
+        product = json_response["response"]["data"][0]
+        ingredients = product["ingredients"]
+        for ingredient in ingredients:
+            print ingredient
+
+    return render(request, 'vendor/scan.html')
+
+
+@csrf_exempt
+def ajax(request):
+    if request.method == "POST":
+        item = Item()
+        item.item_code = request.POST["scan"]
+        item.save()
+
+    items = list(Item.objects.all())
+    ajax_data = []
+    for p in items:
+        ingredients = []
+        for i in p.ingredients.all():
+            ingredients.append(i.ingredients)
+        ajax_data.append({
+            "scan": p.item_code,
+            "item_name": p.item_name,
+            "item_ingredients": ingredients,
+        })
+
+    return HttpResponse(dumps(ajax_data), content_type="application/json")
+
+
+def dom(request):
+    if request.method == "POST":
+        print request.POST
+
+    return render(request, 'vendor/scan.html')

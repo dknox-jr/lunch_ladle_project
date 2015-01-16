@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var request = new XMLHttpRequest();
+
+
+        function draw(data) {
+            var list = document.getElementById("list");
+            var template = document.getElementById("template");
+            var output = [];
+            data.forEach(function (item) {
+                console.log(item);
+                var text = template.innerHTML;
+                for (var p in item) {
+                    if (item.hasOwnProperty(p)) {
+                        text = text.replace("{item." + p + "}", item[p]);
+                    }
+                }
+                output.push(text)
+            });
+            list.innerHTML = "<li>" + output.join("</li><li>") + "</li>";
+        }
+
+        function onRequestChange() {
+            console.log(request.readyState, request.status);
+            if ((request.readyState == 4) && (request.status == 200)) {
+                var data = JSON.parse(request.responseText);
+                draw(data);
+            }
+        }
+
+        function fetch() {
+            request.onload = undefined;
+            request.onreadystatechange = onRequestChange;
+            request.open("GET", "/vendor/ajax/", true);
+            request.send();
+        }
+        function load() {
+            fetch();
+        }
+        window.addEventListener("load", load);
+
+        function saveData(formData){
+            request.open("POST","/vendor/ajax/",true);
+            request.onload = fetch;
+            request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            request.send(formData);
+        }
+        function captureSubmit(){
+            //Get inputs inside form and iterate over them.
+            var elementList = document.getElementById("f1").children;
+            formDataList = [];
+            //Creating something like this:
+            //title=spiderman&role=hero&color=red
+            for(var i=0; i < elementList.length; i++){
+                var element = elementList[i];
+                formDataList.push(
+                        encodeURIComponent(element.name)
+                        + "=" +
+                        encodeURIComponent(element.value)
+                );
+                console.log(element.name);
+            }
+            saveData(formDataList.join("&"));
+            //CANCEL FORM SUBMISSION; must be returned in onsubmit below.
+            return false;
+        }
+
+    </script>
+    <style>
+        .template {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<form id="f1" action="/vendor/scan" method="post">
+    {% csrf_token %}
+    <input name="scan" placeholder="Enter product code" onsubmit="return captureSubmit()">
+    <input type="submit" value="scan">
+</form>
+<ul id="list">
+</ul>
+<ul class="template>">
+    <li id="template" class="template">
+        <span>
+           Code: {item.item_code}
+        </span>
+        <br>
+        <span>
+           Name: {item.item_name}
+        </span>
+        <br>
+        <br>
+    </li>
+</ul>
+</body>
+</html>
