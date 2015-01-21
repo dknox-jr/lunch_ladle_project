@@ -30,9 +30,13 @@ def scan(request):
         json_response = json.loads(j)
         print json_response
         product = json_response["response"]["data"][0]
+        product_print = product["product_name"]
         ingredients = product["ingredients"]
         for ingredient in ingredients:
             print ingredient
+            context = RequestContext(request)
+            context_dict = {'product_name': product_print, 'product_code': upc}
+            return render_to_response('vendor/scan.html', context_dict, context)
 
     return render(request, 'vendor/scan.html')
 
@@ -40,8 +44,9 @@ def scan(request):
 @csrf_exempt
 def ajax(request):
     if request.method == "POST":
+
         item = Item()
-        item.item_code = request.POST["scan"]
+        item.item_code = request.POST["item_code"]
         item.save()
 
     items = list(Item.objects.all())

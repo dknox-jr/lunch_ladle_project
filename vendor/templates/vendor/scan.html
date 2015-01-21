@@ -77,7 +77,7 @@
     </style>
 </head>
 <body>
-<form id="f1" action="/vendor/scan" method="post">
+<form id="f1" action="scan.html" method="post">
     {% csrf_token %}
     <input name="scan" placeholder="Enter product code" onsubmit="return captureSubmit()">
     <input type="submit" value="scan">
@@ -97,5 +97,8 @@
         <br>
     </li>
 </ul>
+{{ product_code }}
+<br>
+{{ product_name }}
 </body>
 </html>

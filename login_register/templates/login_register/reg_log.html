@@ -14,5 +14,54 @@
                 <a href="/lunch_ladle/blog/">Blog</a>
                 <a href="/lunch_ladle/contact/">Contact Us</a>
         </div>
+        <div id="forms">
+            <h3>Register for a New Account</h3>
+            <div id="tabs">
+                <div>
+                    <h3>Create a New User Account</h3>
+                        <form id="register_nu" method="post">
+                            <input type="text" name="first_name" placeholder="First Name"><br>
+                            <input type="text" name="last_name" placeholder="Last Name"><br>
+                            <input type="text" name="dob" placeholder="Date of Birth"><br>
+                            <input type="text" name="username" placeholder="Choose a Username"><br>
+                            <input type="password" name="password" placeholder="Enter a Password"><br>
+                            <input type="submit" value="Register a New User Account"><br>
+                        </form>
+                <h3>Create a New Vendor Account</h3>
+                    <form id="register_nv" method="post">
+                        <input type="text" name="first_name" placeholder="First Name"><br>
+                        <input type="text" name="last_name" placeholder="Last Name"><br>
+                        <input type="text" name="dob" placeholder="Date of Birth"><br>
+                        <input type="text" name="username" placeholder="Choose a Username"><br>
+                        <input type="password" name="password" placeholder="Enter a Password"><br>
+                        <input type="submit" value="Register a New User Account"><br>
+                    </form>
+            </div>
+            <div>
+                <h3>Log in to an Existing Account</h3>
+                    <h3>Log in to a User Account</h3>
+                    <form id="u_login" method="post">
+                        <input type="text" name="username" placeholder="Enter Username"><br>
+                        <input type="password" name="password" placeholder="Enter Password"><br>
+                        <input type="submit" value="Log in to an Existing Account"><br>
+                    </form>
+                    <h3>Log in to a User Account</h3>
+                    <form id="u_login" method="post">
+                        <input type="text" name="username" placeholder="Enter Username"><br>
+                        <input type="password" name="password" placeholder="Enter Password"><br>
+                        <input type="submit" value="Log in to an Existing Account"><br>
+                    </form>
+            </div>
+        </div>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            $('#tabs').tabs();
+        });
+        $(function() {
+            $('#forms').accordion();
+        });
+    </script>
     </body>
 </html>
