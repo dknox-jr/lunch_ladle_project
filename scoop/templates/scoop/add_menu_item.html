@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+<script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+{{ form.media }}
+</head>
+<body>
+    <h1>Add an Item to your Menu</h1>
+        <form id="add_item_form" method="post" action="add_menu_item.html">
+
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+                <br>
+            {% endfor %}
+
+            <input type="submit" name="submit" value="Add Item" />
+        </form>
+
+</body>
+</html>

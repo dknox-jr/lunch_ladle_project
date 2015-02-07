@@ -1,6 +1,8 @@
 Mission: lunch ladle is a website dedicated to helping parents maintain meaningful influence over their
     children's diets by providing a framework for monitoring and controlling what is available for purchase.
 
+VIEWS:
+
 Home Page:
     logo
     button links to:
@@ -95,6 +97,7 @@ Registration Page:
 
 User Profile Set-Up Page:
     logo
+    enter personal information
     enter student information (first child)
         lunch ladle account number (number field)
         student name (text field)
@@ -106,4 +109,7 @@ User Profile Set-Up Page:
         submit button
 
 User Profile Page:
+    logo
+    edit Profile > redirect to User Profile Set-Up Page
 
+Vendor

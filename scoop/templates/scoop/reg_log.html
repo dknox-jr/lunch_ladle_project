@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>lunch ladle</title>
+        <link rel="stylesheet" type="text/css" href="../../static/scoop/styles.css">
+
+    </head>
+    <body>
+        <div class="topnav">
+                <a href="/ll_home">Home</a>
+                <a href="about.html">About</a>
+                <a href="/scoop/templates/scoop/how_it_works.html">How it Works</a>
+                <a href="/lunch_ladle/testimonials/">Testimonials</a>
+                <a href="/lunch_ladle/blog/">Blog</a>
+                <a href="/lunch_ladle/contact/">Contact Us</a>
+        </div>
+        <div class = "accordion">
+            <section class="panel" id="new_account">
+                <div id="newa">
+                <h2>
+                    Register for a New Account
+                </h2>
+                </div>
+                <section class="panel2" id="new_user">
+                    <h2>
+                        New User
+                    </h2>
+                    <form class="form" id="register_nu" method="post">
+                        <label>Register for a New User Account</label><br>
+                        <input type="text" name="first_name" placeholder="First Name"><br>
+                        <input type="text" name="last_name" placeholder="Last Name"><br>
+                        <input type="text" name="dob" placeholder="Date of Birth"><br>
+                        <input type="text" name="username" placeholder="Choose a Username"><br>
+                        <input type="password" name="password" placeholder="Enter a Password"><br>
+                        <input type="submit" value="Register User"><br>
+                    </form>
+                </section>
+                <section class="panel2" id = "new_vendor">
+                    <h2>
+                        New Vendor
+                    </h2>
+                    <form class="form" id="register_nv" method="post">
+                        <label>Register for a New Vendor Account</label><br>
+                        <input type="text" name="first_name" placeholder="First Name"><br>
+                        <input type="text" name="last_name" placeholder="Last Name"><br>
+                        <input type="text" name="company_name" placeholder="Company Name"><br>
+                        <input type="text" name="username" placeholder="Choose a Username"><br>
+                        <input type="password" name="password" placeholder="Enter a Password"><br>
+                        <input type="submit" value="Register Vendor"><br>
+                    </form>
+                </section>
+            </section>
+            <section class="panel" id="existing_account">
+                <div id="exa">
+                <h2>
+                    Log in to an Existing Account
+                </h2>
+                </div>
+                <section class="panel2" id="existing_user">
+                    <h2>
+                        User LogIn
+                    </h2>
+                    <form class="form" id="u_login" method="post">
+                        <label>Log in to an Existing User Account</label><br>
+                        <input type="text" name="username" placeholder="Enter Username"><br>
+                        <input type="password" name="password" placeholder="Enter Password"><br>
+                        <input type="submit" value="LogIn"><br>
+                    </form>
+                    </section>
+                    <section class="panel2" id="existing_vendor">
+                    <h2>
+                        Vendor LogIn
+                    </h2>
+                    <form class="form" id="v_login" method="post">
+                        <label>Log in to an Existing Vendor Account</label><br>
+                        <input type="text" name="username" placeholder="Enter Username"><br>
+                        <input type="password" name="password" placeholder="Enter Password"><br>
+                        <input type="submit" value="LogIn"><br>
+                    </form>
+                </section>
+            </section>
+        </div>
+
+        <script>
+            function expand() {
+                var new_user = document.getElementById("new_user"),
+                    new_vendor = document.getElementById("new_vendor");
+                if (new_user.classList.contains("in_view") && new_vendor.classList.contains("in_view")) {
+                    new_user.classList.remove("in_view");
+                    new_vendor.classList.remove("in_view");
+                } else {
+                    new_user.classList.add("in_view");
+                    new_vendor.classList.add("in_view");
+                }
+            }
+            var clickPanel = document.getElementById("newa");
+            clickPanel.onclick = expand;
+
+            function expand2() {
+                var existing_user = document.getElementById("existing_user"),
+                    existing_vendor = document.getElementById("existing_vendor");
+                if (existing_user.classList.contains("in_view") && existing_vendor.classList.contains("in_view")) {
+                    existing_user.classList.remove("in_view");
+                    existing_vendor.classList.remove("in_view");
+                } else {
+                    existing_user.classList.add("in_view");
+                    existing_vendor.classList.add("in_view");
+                }
+            }
+            var click2Panel = document.getElementById("exa");
+            click2Panel.onclick = expand2;
+
+            function expandForm() {
+                var form1 = document.getElementById("register_nu");
+                if (form1.classList.contains("form_view")) {
+                    form1.classList.remove("form_view");
+                } else {
+                    form1.classList.add("form_view");
+                }
+            }
+            var clickForm = document.getElementById("new_user");
+            clickForm.onclick = expandForm;
+
+            function expandForm2() {
+                var form2 = document.getElementById("register_nv");
+                if (form2.classList.contains("form_view")) {
+                    form2.classList.remove("form_view");
+                } else {
+                    form2.classList.add("form_view");
+                }
+            }
+            var clickForm2 = document.getElementById("new_vendor");
+            clickForm2.onclick = expandForm2;
+
+            function expandForm3() {
+                var form3 = document.getElementById("u_login");
+                if (form3.classList.contains("form_view")) {
+                    form3.classList.remove("form_view");
+                } else {
+                    form3.classList.add("form_view");
+                }
+            }
+            var clickForm3 = document.getElementById("existing_user");
+            clickForm3.onclick = expandForm3;
+
+            function expandForm4() {
+                var form4 = document.getElementById("v_login");
+                if (form4.classList.contains("form_view")) {
+                    form4.classList.remove("form_view");
+                } else {
+                    form4.classList.add("form_view");
+                }
+            }
+            var clickForm4 = document.getElementById("existing_vendor");
+            clickForm4.onclick = expandForm4;
+        </script>
+    </body>
+</html>

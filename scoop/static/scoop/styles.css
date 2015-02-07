@@ -1,0 +1,81 @@
+body  {
+    background-color: cornsilk;
+}
+
+.topnav {
+    text-align: center;
+    padding: 20px;
+    background-color: silver;
+    border: 1px solid maroon;
+    border-radius: 7px;
+}
+
+.topnav a:link, :visited {
+    color: darkslategrey;
+    padding-left: 40px;
+    background-color: silver;
+    background-size: 100px 50px;
+    text-decoration: none;
+}
+
+#add_item_form {
+    display: block;
+}
+
+.accordion {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    padding: 25px;
+    text-align: center;
+    width: 700px;
+    height: auto;
+    background-color: silver;
+    border: 1px solid maroon;
+    border-radius: 7px;
+}
+
+.panel {
+    color: black;
+    background-color: slategrey;
+    border: 3px solid maroon;
+    border-radius: 7px;
+    margin: 25px;
+    cursor: pointer;
+}
+
+.panel div {
+    padding: 13px;
+}
+
+.panel2 {
+    display: none;
+}
+
+.in_view {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12px;
+    margin-bottom: 13px;
+    display: block;
+    background-color: silver;
+    border: 3px solid maroon;
+    border-radius: 7px;
+    width: 200px;
+    cursor: pointer;
+}
+
+.panel2>h2 {
+    color: darkslategrey;
+}
+
+form {
+    display: none;
+}
+
+.form_view {
+    display: block;
+}
+.form_view>input :focus {
+    border: 2px solid orange;
+}
