@@ -1,16 +1,27 @@
 <!DOCTYPE html>
+        {% extends 'scoop/form_template.html' %}
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>
+        {% block title %}
+            User Registration Page
+        {% endblock %}
+    </title>
 </head>
 <body>
-<form method="post">
-    {% csrf_token %}
-    <input name="username" placeholder="username">
-    <input name="password" placeholder="password">
-    <input type="submit" value="Register">
-</form>
+    {% block form_header %}
+        <h3>User Registration Form</h3>
+    {% endblock %}
+
+    {% block form %}
+        <form method="post">
+            {% csrf_token %}
+            <input name="username" placeholder="username">
+            <input name="password" placeholder="password">
+            <input id="submit" type="submit" value="Register">
+        </form>
+    {% endblock %}
 
 </body>
 </html>

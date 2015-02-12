@@ -1,30 +1,150 @@
 <!DOCTYPE html>
+        {% extends 'scoop/form_template.html' %}
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>
+        {% block title %}
+        Edit Menu
+        {% endblock %}
+    </title>
+    <script>
+    var request = new XMLHttpRequest();
+
+
+        function draw(data) {
+            var list = document.getElementById("list");
+            var template = document.getElementById("template");
+            var output = [];
+            data.forEach(function (item) {
+                console.log(item);
+                var text = template.innerHTML;
+                for (var p in item) {
+                    if (item.hasOwnProperty(p)) {
+                        text = text.replace("{item." + p + "}", item[p]);
+                    }
+                }
+                output.push(text)
+            });
+            list.innerHTML = ("<li>" + output.join("</li><li>") + "</li>");
+        }
+
+        function onRequestChange() {
+            console.log(request.readyState, request.status);
+            if ((request.readyState == 4) && (request.status == 200)) {
+                var data = JSON.parse(request.responseText);
+                draw(data);
+            }
+        }
+
+        function fetch() {
+            request.onload = undefined;
+            request.onreadystatechange = onRequestChange;
+            request.open("GET", "/scoop/ajax/", true);
+            request.send();
+        }
+        function load() {
+            fetch();
+        }
+        window.addEventListener("load", load);
+
+        function saveData(formData){
+            request.open("GET","/scoop/ajax/",true);
+            request.onload = fetch;
+            request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            request.send(formData);
+        }
+        function captureSubmit(){
+            //Get inputs inside form and iterate over them.
+            var elementList = document.getElementById("f1").children;
+            formDataList = [];
+            //Creating something like this:
+            //title=spiderman&role=hero&color=red
+            for(var i=0; i < elementList.length; i++){
+                var element = elementList[i];
+                formDataList.push(
+                        encodeURIComponent(element.name)
+                        + "=" +
+                        encodeURIComponent(element.value)
+                );
+                console.log(element.name);
+            }
+            saveData(formDataList.join("&"));
+            //CANCEL FORM SUBMISSION; must be returned in onsubmit below.
+            return false;
+        }
+
+    </script>
 <script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
 {{ form.media }}
 </head>
 <body>
     <h1>Add an Item to your Menu</h1>
-        <form id="add_item_form" method="post" action="add_menu_item.html">
 
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
+    {% block form_header %}
+    <h3>Import data for a stock item</h3>
+    {% endblock %}
 
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-                <br>
-            {% endfor %}
-
-            <input type="submit" name="submit" value="Add Item" />
+    {% block form %}
+        <form id="f1" action="add_menu_item.html" method="get">
+        {% csrf_token %}
+            <input name="scan" placeholder="Enter product code" onsubmit="return captureSubmit()">
+            <input type="submit" value="scan" name="stock_item">
         </form>
+    {% endblock %}
+<ul id="list">
+</ul>
+<ul class="template>">
+    <li id="template" class="template">
+        <span>
+            {{ item_code }}
+           <!--Code: {item.product_code}-->
+        </span>
+        <br>
+        <span>
+            {{ product_name }}
+           <!--Name: {item.product_name}-->
+        </span>
+        <br>
+        <br>
+    </li>
+</ul>
+
+<br>
+    {% block form2_header %}
+    <h3>Enter data for a custom item</h3>
+    {% endblock %}
+
+    {% block form2 %}
+        <form id="add_custom_item" method="post" action="add_menu_item.html">
+            <input placeholder="brand" name="brand" value="{{ brand }}"><br>
+            <input placeholder="manufacturer" name="manufacturer" value="{{ manufacturer }}"><br>
+            <input placeholder="product name" name="product_name" value="{{ product_name }}"><br>
+            <input placeholder="item code" name="item_code" value="{{ item_code }}"><br>
+            <input placeholder="item category" name="item_category" value="{{ item_category }}"><br>
+            <input placeholder="ingredients" name="ingredients" value={% for i in ingredients %} print i {% endfor %}><br>
+        </form>
+    {% endblock %}
+    {% block lower_text %}
+    <p>this is a test!</p>
+    {% endblock %}
+        <!--<form id="add_item_form" method="post" action="add_menu_item.html">-->
+
+            <!--{% csrf_token %}-->
+            <!--{% for hidden in form.hidden_fields %}-->
+                <!--{{ hidden }}-->
+            <!--{% endfor %}-->
+
+            <!--{% for field in form.visible_fields %}-->
+                <!--{{ field.errors }}-->
+                <!--{{ field.help_text }}-->
+                <!--{{ field }}-->
+                <!--<br>-->
+            <!--{% endfor %}-->
+
+            <!--<input type="submit" name="custom-item" value="Add Item" />-->
+        <!--</form>-->
 
 </body>
 </html>

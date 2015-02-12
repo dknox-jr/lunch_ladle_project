@@ -35,7 +35,7 @@
         function fetch() {
             request.onload = undefined;
             request.onreadystatechange = onRequestChange;
-            request.open("GET", "/vendor/ajax/", true);
+            request.open("GET", "/scoop/ajax/", true);
             request.send();
         }
         function load() {
@@ -44,7 +44,7 @@
         window.addEventListener("load", load);
 
         function saveData(formData){
-            request.open("POST","/vendor/ajax/",true);
+            request.open("GET","/scoop/ajax/",true);
             request.onload = fetch;
             request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             request.send(formData);
@@ -77,7 +77,7 @@
     </style>
 </head>
 <body>
-<form id="f1" action="scan.html" method="post">
+<form id="f1" action="scan.html" method="get">
     {% csrf_token %}
     <input name="scan" placeholder="Enter product code" onsubmit="return captureSubmit()">
     <input type="submit" value="scan">

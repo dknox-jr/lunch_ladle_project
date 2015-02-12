@@ -1,0 +1,35 @@
+form {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h3 {
+    margin-top: 10%;
+    color: firebrick;
+}
+
+input {
+    display: block;
+    background-color: silver;
+    color: darkslategrey;
+    margin: 10px auto 10px auto;
+    border: 1px solid maroon;
+    border-radius: 5px;
+    box-shadow: 3px 3px #888;
+    font-size: 18px;
+}
+
+input:hover, :focus {
+    background-color: powderblue;
+}
+
+#submit {
+    background-color: darkslategrey;
+    color: silver;
+    box-shadow: 3px 3px teal;
+}
+
+#submit:hover {
+    background-color: teal;
+}

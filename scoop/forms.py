@@ -1,5 +1,5 @@
 from django import forms
-from models import Item, Ingredient
+from models import Item, Ingredient, User
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
 
@@ -22,3 +22,12 @@ class ItemForm(forms.ModelForm):
     class Media:
         css = {'all': ('/static/admin/css/widgets.css',), }
         js = ('/admin/jsi18n',)
+
+
+class LoginForm(forms.ModelForm):
+    username = forms.CharField()
+    password = forms.CharField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']

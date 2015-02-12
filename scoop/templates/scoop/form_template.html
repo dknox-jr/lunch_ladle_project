@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+        {% extends 'scoop/base_home.html' %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+        {% block styles %}
+            {{ block.super }}
+            <link rel="stylesheet" type="text/css" href="../../static/scoop/forms.css">
+        {% endblock %}
+</head>
+<body>
+
+    {% block form_header %}
+    {% endblock %}
+
+    {% block form %}
+    {% endblock %}
+
+    {% block form2_header %}
+    {% endblock %}
+
+    {% block form2 %}
+    {% endblock %}
+
+    {% block lower_text %}
+    {% endblock %}
+</body>
+</html>

@@ -1,5 +1,26 @@
 body  {
-    background-color: cornsilk;
+    background-color: orangered;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+p {
+    color: darkslategrey;
+}
+
+#left_column {
+    position: absolute;
+    padding-top: 40px;
+    background-color: darkslategrey;
+    color: silver;
+    text-align: center;
+    width: 200px;
+    height: 50%;
+    margin-left: 30px;;
+    border-top-left-radius: 20% 100%;
+    border-top-right-radius: 100% 20%;
+    border-bottom-left-radius: 20% 100%;
+    border-bottom-right-radius: 100% 20%;
 }
 
 .topnav {
@@ -69,9 +90,9 @@ body  {
     color: darkslategrey;
 }
 
-form {
-    display: none;
-}
+/*form {*/
+    /*display: none;*/
+/*}*/
 
 .form_view {
     display: block;

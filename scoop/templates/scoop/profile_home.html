@@ -1,10 +1,21 @@
 <!DOCTYPE html>
+        {% extends 'scoop/base_home.html' %}
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>
+        {% block title %}
+        {% if user.is_authenticated %}
+        {{ user.username }}'s Profile
+        {% else %}
+        Welcome!
+        {% endif %}
+        {% endblock %}
+            </title>
 </head>
 <body>
 
 </body>
+
+
 </html>
