@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -14,28 +16,30 @@
         {% endblock %}
 </head>
 <body>
-    {% block navigation %}
-        <div class="topnav">
-                <a href="/" id="home">Home</a>
-                <a href="about.html">About</a>
-                <a href="how_it_works.html">How it Works</a>
-                <a href="testimonials.html">Testimonials</a>
-                <a href="blog.html">Blog</a>
-                <a href="contact.html">Contact Us</a>
-                <a href="reg_log.html">Register / LogIn</a>
-        </div>
+    {% block top_navigation %}
+        {% include 'scoop/top_navigation.html' %}
     {% endblock %}
-    {% block left_column %}
-    {% endblock %}
-    {% block form_header %}
-    {% endblock %}
-    {% block form %}
-    {% endblock %}
-    {% block form2_header %}
-    {% endblock %}
-    {% block form2 %}
-    {% endblock %}
-    {% block lower_text %}
+
+    {% block left_column %}{% endblock %}
+
+    {% block header %}{% endblock %}
+
+    {% block upper_text %}{% endblock %}
+
+    {% block form_header %}{% endblock %}
+
+    {% block form %}{% endblock %}
+
+    {% block middle_text %}{% endblock %}
+
+    {% block form2_header %}{% endblock %}
+
+    {% block form2 %}{% endblock %}
+
+    {% block lower_text %}{% endblock %}
+
+    {% block footer %}
+        {% include 'scoop/footer.html' %}
     {% endblock %}
 
 </body>

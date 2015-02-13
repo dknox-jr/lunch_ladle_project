@@ -1,3 +1,4 @@
+/*base styles for page*/
 body  {
     background-color: orangered;
     text-align: center;
@@ -8,6 +9,45 @@ p {
     color: darkslategrey;
 }
 
+h3 {
+    color: firebrick;
+    margin-top: 8%;
+}
+
+/*styles for top navigation bar*/
+#top_navigation {
+    margin-top: 15px;
+    text-align: center;
+    padding: 20px;
+    background-color: silver;
+    border: 1px solid maroon;
+    border-radius: 7px;
+    position: fixed;
+    top: 0px;
+    width: 96%;
+}
+
+#top_navigation a:link, :visited {
+    color: darkslategrey;
+    padding-left: 40px;
+    background-color: silver;
+    background-size: 100px 50px;
+    text-decoration: none;
+}
+
+/*styles for footer*/
+#footer {
+    background-color: silver;
+    border: 1px solid maroon;
+    border-radius: 5px;
+    position: fixed;
+    bottom: 0px;
+    width: 96%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/*styles for left column*/
 #left_column {
     position: absolute;
     padding-top: 40px;
@@ -21,22 +61,6 @@ p {
     border-top-right-radius: 100% 20%;
     border-bottom-left-radius: 20% 100%;
     border-bottom-right-radius: 100% 20%;
-}
-
-.topnav {
-    text-align: center;
-    padding: 20px;
-    background-color: silver;
-    border: 1px solid maroon;
-    border-radius: 7px;
-}
-
-.topnav a:link, :visited {
-    color: darkslategrey;
-    padding-left: 40px;
-    background-color: silver;
-    background-size: 100px 50px;
-    text-decoration: none;
 }
 
 #add_item_form {

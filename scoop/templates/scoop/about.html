@@ -3,11 +3,21 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title></title>
-
+        <title>
+            {% block title %}
+                About Lunch Ladle
+            {% endblock %}
+        </title>
     </head>
     <body>
+        {% block header %}
+            <h3>Our Mission:</h3>
+        {% endblock %}
 
-        </div>
+        {% block upper_text %}
+            <p>Lunch Ladle is dedicated to helping parents maintain meaningful influence over their children's diets
+                <br>
+               by providing a framework for monitoring and choosing what is available for purchase.</p>
+        {% endblock %}
     </body>
 </html>
