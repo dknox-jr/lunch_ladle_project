@@ -9,6 +9,20 @@
         {% endblock %}
     </title>
     <script>
+        $("#ingredients").select2();
+$("#checkbox").click(function(){
+    if($("#checkbox").is(':checked') ){
+        $("#ingredients > option").prop("selected","selected");
+        $("#e1").trigger("change");
+    }else{
+        $("#ingredients > option").removeAttr("selected");
+         $("#ingredients").trigger("change");
+     }
+});
+
+$("#button").click(function(){
+       alert($("#e1").val());
+});
     var request = new XMLHttpRequest();
 
 
@@ -118,13 +132,31 @@
 
     {% block form2 %}
         <form id="add_custom_item" method="post" action="add_menu_item.html">
+            {% csrf_token %}
             <input placeholder="brand" name="brand" value="{{ brand }}"><br>
             <input placeholder="manufacturer" name="manufacturer" value="{{ manufacturer }}"><br>
             <input placeholder="product name" name="product_name" value="{{ product_name }}"><br>
             <input placeholder="item code" name="item_code" value="{{ item_code }}"><br>
             <input placeholder="item category" name="item_category" value="{{ item_category }}"><br>
-            <input placeholder="ingredients" name="ingredients" value={% for i in ingredients %} print i {% endfor %}><br>
+            <input placeholder="ingredients" name="ingredients" value="{{ ingredients }}"><br>
+            <input type="submit" name="custom-item" value="Add Item">
         </form>
+        <!--<form id="add_item_form" method="post" action="add_menu_item.html">-->
+
+            <!--{% csrf_token %}-->
+            <!--{% for hidden in form.hidden_fields %}-->
+                <!--{{ hidden }}-->
+            <!--{% endfor %}-->
+
+            <!--{% for field in form.visible_fields %}-->
+                <!--{{ field.errors }}-->
+                <!--{{ field.help_text }}-->
+                <!--{{ field }}-->
+                <!--<br>-->
+            <!--{% endfor %}-->
+
+            <!--<input type="submit" name="custom-item" value="Add Item" />-->
+        <!--</form>-->
     {% endblock %}
     {% block lower_text %}
     <p>this is a test!</p>

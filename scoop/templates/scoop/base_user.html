@@ -1,10 +1,46 @@
 <!DOCTYPE html>
+
+
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>
+        {% block title %}
+            Lunch Ladle
+        {% endblock %}
+    </title>
+        {% block styles %}
+            <link rel="stylesheet" type="text/css" href="../../static/scoop/styles.css">
+        {% endblock %}
+        {% block scripts %}
+        {% endblock %}
 </head>
 <body>
+    {% block top_navigation %}
+        {% include 'scoop/top_navigation.html' %}
+    {% endblock %}
+
+    {% block left_column %}{% endblock %}
+
+    {% block header %}{% endblock %}
+
+    {% block upper_text %}{% endblock %}
+
+    {% block form_header %}{% endblock %}
+
+    {% block form %}{% endblock %}
+
+    {% block middle_text %}{% endblock %}
+
+    {% block form2_header %}{% endblock %}
+
+    {% block form2 %}{% endblock %}
+
+    {% block lower_text %}{% endblock %}
+
+    {% block footer %}
+        {% include 'scoop/footer.html' %}
+    {% endblock %}
 
 </body>
 </html>

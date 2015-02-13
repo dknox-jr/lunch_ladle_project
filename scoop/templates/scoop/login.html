@@ -19,15 +19,15 @@
     {% endblock %}
 
     {% block form %}
-    <form>
-    {{ form }}
-        <!--<form method="post">-->
-            <!--{% csrf_token %}-->
-            <!--<input name="username" placeholder="username">-->
-            <!--<input name="password" placeholder="password">-->
+    <!--<form>-->
+    <!--{{ form }}-->
+        <form method="post">
+            {% csrf_token %}
+            <input name="username" placeholder="username">
+            <input name="password" placeholder="password">
             <input id="submit" type="submit" value="Log in">
-        <!--</form>-->
-    </form>
+        </form>
+    <!--</form>-->
     {% endblock %}
 
 </body>

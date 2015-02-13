@@ -14,12 +14,12 @@ class Ingredient(models.Model):
 
 
 class Item(models.Model):
-    brand = models.CharField(max_length=50, blank=True)
+    brand = models.CharField(max_length=50, blank=True, null=True)
     manufacturer = models.CharField(max_length=50, blank=True, null=True)
     product_name = models.CharField(max_length=100, blank=True)
     item_code = models.CharField(max_length=50, blank=True, null=True)
     item_category = models.CharField(max_length=255, blank=True, null=True)
-    ingredient = models.ManyToManyField(Ingredient, verbose_name="ingredients")
+    ingredient = models.ManyToManyField(Ingredient, verbose_name="ingredients", blank=True, null=True)
     nutritional_info = models.CharField(max_length=255, blank=True, null=True)
     allergen_info = models.CharField(max_length=100, blank=True, null=True)
     item_price = models.CharField(max_length=10, blank=True, null=True)

@@ -16,7 +16,6 @@ factual = Factual('2ReKJ6iWVlbUs0B10VixjPGSMw1uLW5UQtL7tJgC', 'Xb0cE0OFsGp8zmGEN
 
 
 def profile_home(request):
-
     return render(request, 'scoop/profile_home.html')
 
 
@@ -43,17 +42,29 @@ def add_menu_item(request):
         context = RequestContext(request)
         context_dict = {'brand': brand, 'manufacturer': manufacturer, 'product_name': product_name, 'item_code': item_code, 'item_category': item_category, 'ingredients': ingredients}
         return render_to_response('scoop/add_menu_item.html', context_dict, context)
-        # return render(request, 'scoop/add_menu_item.html')
-    elif request.method == 'POST' and 'custom_item' in request.POST:
-        form = ItemForm(request.POST)
-        if form.is_valid():
-            form.save(commit=True)
-        else:
-            print form.errors
-        return render_to_response('scoop/add_menu_item.html', {'form': form}, context)
-    else:
-        form = ItemForm
-    return render_to_response('scoop/add_menu_item.html', {'form': form}, context)
+
+    elif request.method == 'POST':
+        print request.POST
+        item = Item()
+        item.brand = request.POST["brand"]
+        item.manufacturer = request.POST["manufacturer"]
+        item.product_name = request.POST["product_name"]
+        item.item_code = request.POST["item_code"]
+        item.item_category = request.POST["item_category"]
+        item.ingredients = request.POST["ingredients"]
+        item.save()
+        return redirect('login.html')
+    return render(request, 'scoop/add_menu_item.html')
+    #     form = ItemForm(request.POST)
+    #     if form.is_valid():
+    #         form.save(commit=True)
+    #         return add_menu_item(context)
+    #     else:
+    #         print form.errors
+    #     return render_to_response('scoop/add_menu_item.html', {'form': form}, context)
+    # else:
+    #     form = ItemForm
+    # return render_to_response('scoop/add_menu_item.html', {'form': form}, context)
 
 
 def index(request):
@@ -81,32 +92,41 @@ def reg_log(request):
 def register(request):
     if request.method == "POST":
         User.objects.create_user(request.POST["username"], None, request.POST["password"])
+        return redirect('login.html')
     return render(request, 'scoop/register.html')
 
 
 def login(request):
-    context = RequestContext(request)
-    if request.method == "Post":
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            return redirect(request, 'scoop/profile_home.html')
     # context = RequestContext(request)
-    # if request.method == "POST":
-    #     user = auth.authenticate(username=request.POST["username"],
-    #                              password=request.POST["password"])
-    #     if user is not None:
-    #         #the password verified for the user.
-    #         if user.is_active:
-    #             print "User is valid, active and authenticated"
-    #             return redirect('/profile_home.html')
-    #         else:
-    #             error = "This account has been DEACTIVATED.  Please contact Lunch Ladle customer service"
-    #             return render_to_response('scoop/login.html', {"error": error}, context)
-    #     else:  # the authentication system was unable to verify the username and password
-    #         error = "The username and/or password were incorrect."
-    #         return render_to_response('scoop/login.html', {"error": error}, context)
-    form = LoginForm
-    return render_to_response('scoop/login.html', {"form": form}, context)
+    # if request.method == "Post":
+    #     form = LoginForm(request.POST)
+    #     if form.is_valid():
+    #         return redirect(request, 'scoop/profile_home.html')
+    context = RequestContext(request)
+    if request.method == "POST":
+        user = auth.authenticate(username=request.POST["username"],
+                                 password=request.POST["password"])
+        if user is not None:
+            #the password verified for the user.
+            if user.is_active:
+                auth.login(request, user)
+                print "User is valid, active and authenticated"
+                return redirect('profile_home.html')
+            else:
+                error = "This account has been DEACTIVATED.  Please contact Lunch Ladle customer service"
+                return render_to_response('scoop/login.html', {"error": error}, context)
+        else:  # the authentication system was unable to verify the username and password
+            error = "The username and/or password were incorrect."
+            return render_to_response('scoop/login.html', {"error": error}, context)
+    return render(request, 'scoop/login.html')
+    # form = LoginForm
+    # return render_to_response('scoop/login.html', {"form": form}, context)
+
+def logout(request):
+    RequestContext(request)
+    if auth.user_logged_in:
+        auth.logout(request)
+    return render(request, 'scoop/logout.html')
 
 
 # def index(request):
