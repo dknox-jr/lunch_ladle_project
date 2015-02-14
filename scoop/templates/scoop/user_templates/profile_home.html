@@ -8,19 +8,21 @@
         {% if user.is_authenticated %}
         {{ user.username }}'s Profile
         {% else %}
-        Thank You!
+        OOPS! Please Login
         {% endif %}
         {% endblock %}
             </title>
 </head>
 <body>
-{% block middle_text %}
+{% block lower_text %}
 {% if user.is_authenticated %}
-<p style="margin-top: 100px">Logout failed.  Please press <a href="logout.html">Logout</a> again to ensure a secure logout</p>
+<p style="margin-top: 100px"></p>
+<a href="../logout.html">Logout</a>
 {% else %}
-<p style="margin-top: 100px">Thank you for using Lunch Ladle.  Please check in again soon.</p>
+<h3>Please Login to your Account</h3>
 {% endif %}
 {% endblock %}
+
 </body>
 
 

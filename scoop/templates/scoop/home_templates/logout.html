@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+        {% extends 'scoop/base_home.html' %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% if user.is_authenticated %}
+        {{ user.username }}'s Profile
+        {% else %}
+        Thank You!
+        {% endif %}
+        {% endblock %}
+            </title>
+</head>
+<body>
+{%block header %}
+{% if user.is_authenticated %}
+<h3>OOPS...</h3>
+{% else %}
+<h3>Thank You!</h3>
+{% endif %}
+{% endblock %}
+{% block middle_text %}
+{% if user.is_authenticated %}
+<p>Logout failed.  Please press <a href="logout.html">Logout</a> again to ensure a secure logout</p>
+{% else %}
+<p>Thank you for using Lunch Ladle.  Please check in again soon.</p>
+{% endif %}
+{% endblock %}
+</body>
+
+
+</html>

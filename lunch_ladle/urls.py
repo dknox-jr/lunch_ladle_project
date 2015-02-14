@@ -22,4 +22,5 @@ urlpatterns = patterns('',
     url(r'^about', 'scoop.views.about', name='about'),
     url(r'^add_menu_item', 'scoop.views.add_menu_item', name='add_menu_item'),
     url(r'^admin/jsi18n/$', 'django.views.i18n.javascript_catalog'),
-    url(r'^profile_home', 'scoop.views.profile_home', name='profile_home'),)
+    url(r'^profile_home', 'scoop.views.profile_home', name='profile_home'),
+    url(r'^cutting_board', 'scoop.views.cutting_board', name='cutting_board'),)

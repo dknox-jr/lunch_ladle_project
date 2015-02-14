@@ -22,9 +22,9 @@ h3 {
     background-color: silver;
     border: 1px solid maroon;
     border-radius: 7px;
-    position: fixed;
-    top: 0px;
-    width: 96%;
+    /*position: fixed;*/
+    /*top: 0px;*/
+    /*width: 96%;*/
 }
 
 #top_navigation a:link, :visited {
@@ -40,9 +40,10 @@ h3 {
     background-color: silver;
     border: 1px solid maroon;
     border-radius: 5px;
-    position: fixed;
-    bottom: 0px;
-    width: 96%;
+    /*position: fixed;*/
+    /*bottom: 0px;*/
+    /*width: 96%;*/
+
     padding-left: 20px;
     padding-right: 20px;
 }

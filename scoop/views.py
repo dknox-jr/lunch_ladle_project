@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.shortcuts import redirect
 from django.template import RequestContext, loader
+from django.db.models import Q
+from django_select2 import Select2View, NO_ERR_RESP
 from django.views.decorators.csrf import csrf_exempt
 from forms import ItemForm, LoginForm
 import urllib
@@ -15,8 +17,8 @@ from factual import Factual
 factual = Factual('2ReKJ6iWVlbUs0B10VixjPGSMw1uLW5UQtL7tJgC', 'Xb0cE0OFsGp8zmGENU7j8T2hzoaNH9cpYvj80WKC')
 
 
-def profile_home(request):
-    return render(request, 'scoop/profile_home.html')
+def about(request):
+    return render(request, 'scoop/home_templates/about.html')
 
 
 def add_menu_item(request):
@@ -41,8 +43,7 @@ def add_menu_item(request):
         ingredients = product["ingredients"]
         context = RequestContext(request)
         context_dict = {'brand': brand, 'manufacturer': manufacturer, 'product_name': product_name, 'item_code': item_code, 'item_category': item_category, 'ingredients': ingredients}
-        return render_to_response('scoop/add_menu_item.html', context_dict, context)
-
+        return render_to_response('scoop/vendor_templates/add_menu_item.html', context_dict, context)
     elif request.method == 'POST':
         print request.POST
         item = Item()
@@ -54,7 +55,7 @@ def add_menu_item(request):
         item.ingredients = request.POST["ingredients"]
         item.save()
         return redirect('login.html')
-    return render(request, 'scoop/add_menu_item.html')
+    return render(request, 'scoop/vendor_templates/add_menu_item.html')
     #     form = ItemForm(request.POST)
     #     if form.is_valid():
     #         form.save(commit=True)
@@ -67,33 +68,25 @@ def add_menu_item(request):
     # return render_to_response('scoop/add_menu_item.html', {'form': form}, context)
 
 
-def index(request):
-
-    return render(request, 'scoop/index.html')
-
-
-def about(request):
-
-    return render(request, 'scoop/about.html')
+def cutting_board(request):
+    return render(request, 'scoop/user_templates/cutting_board.html')
 
 
-def reg_log(request):
-
-    return render(request, 'scoop/reg_log.html')
-
-
-# def scan(request):
-#     if request.method == "POST":
-#         url = "http://api.v3.factual.com/t/products-cpg-nutrition?q=" + request.POST["scan"]
-#         print url
-#     return render(request, 'scoop/scan.html')
+class CuttingBoardSelect2View(Select2View):
+    def get_results(self, request, term, page, context):
+        ingredients = Ingredient.objects.filter(Q(ingredient__icontains=term))
+        res = [ingredient.ingredient for ingredient in ingredients]
+        return NO_ERR_RESP, False, res  # Any error response, Has more results, options list
 
 
-def register(request):
+def dom(request):
     if request.method == "POST":
-        User.objects.create_user(request.POST["username"], None, request.POST["password"])
-        return redirect('login.html')
-    return render(request, 'scoop/register.html')
+        print request.POST
+    return render(request, 'scoop/dom.html')
+
+
+def index(request):
+    return render(request, 'scoop/home_templates/index.html')
 
 
 def login(request):
@@ -114,19 +107,36 @@ def login(request):
                 return redirect('profile_home.html')
             else:
                 error = "This account has been DEACTIVATED.  Please contact Lunch Ladle customer service"
-                return render_to_response('scoop/login.html', {"error": error}, context)
+                return render_to_response('scoop/home_templates/login.html', {"error": error}, context)
         else:  # the authentication system was unable to verify the username and password
             error = "The username and/or password were incorrect."
-            return render_to_response('scoop/login.html', {"error": error}, context)
-    return render(request, 'scoop/login.html')
+            return render_to_response('scoop/home_templates/login.html', {"error": error}, context)
+    return render(request, 'scoop/home_templates/login.html')
     # form = LoginForm
     # return render_to_response('scoop/login.html', {"form": form}, context)
+
 
 def logout(request):
     RequestContext(request)
     if auth.user_logged_in:
         auth.logout(request)
-    return render(request, 'scoop/logout.html')
+    return render(request, 'scoop/home_templates/logout.html')
+
+
+def profile_home(request):
+    return render(request, 'scoop/user_templates/profile_home.html')
+
+
+def reg_log(request):
+    return render(request, 'scoop/reg_log.html')
+
+
+def register(request):
+    if request.method == "POST":
+        User.objects.create_user(request.POST["username"], None, request.POST["password"])
+        return redirect('login.html')
+    return render(request, 'scoop/home_templates/register.html')
+
 
 
 # def index(request):
@@ -164,11 +174,14 @@ def logout(request):
     # return HttpResponse(dumps(ajax_data), content_type="application/json")
 
 
-def dom(request):
-    if request.method == "POST":
-        print request.POST
 
-    return render(request, 'scoop/dom.html')
+
+
+# def scan(request):
+#     if request.method == "POST":
+#         url = "http://api.v3.factual.com/t/products-cpg-nutrition?q=" + request.POST["scan"]
+#         print url
+#     return render(request, 'scoop/scan.html')
 
 # from django.shortcuts import render, render_to_response
 # from json import dumps, loads

@@ -5,24 +5,10 @@
     <meta charset="UTF-8">
     <title>
         {% block title %}
-        Edit Menu
+            Edit Menu
         {% endblock %}
     </title>
     <script>
-        $("#ingredients").select2();
-$("#checkbox").click(function(){
-    if($("#checkbox").is(':checked') ){
-        $("#ingredients > option").prop("selected","selected");
-        $("#e1").trigger("change");
-    }else{
-        $("#ingredients > option").removeAttr("selected");
-         $("#ingredients").trigger("change");
-     }
-});
-
-$("#button").click(function(){
-       alert($("#e1").val());
-});
     var request = new XMLHttpRequest();
 
 

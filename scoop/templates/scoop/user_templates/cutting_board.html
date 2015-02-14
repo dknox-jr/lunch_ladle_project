@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+        {% extends 'scoop/base_user.html' %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            The Cutting Board
+        {% endblock %}
+    </title>
+    <script>
+                $("#ingredients").select2();
+$("#checkbox").click(function(){
+    if($("#checkbox").is(':checked') ){
+        $("#ingredients > option").prop("selected","selected");
+        $("#ingredients").trigger("change");
+    }else{
+        $("#ingredients > option").removeAttr("selected");
+         $("#ingredients").trigger("change");
+     }
+});
+
+$("#button").click(function(){
+       alert($("#ingredients").val());
+});
+    </script>
+</head>
+<body>
+    {% block form_header %}
+    <h3>Choose Ingredients to cut from {{ child }}'s diet.</h3>
+    {% endblock %}
+
+    {% block form %}
+        <form id="f1" action="add_menu_item.html" method="get">
+        {% csrf_token %}
+            <select multiple id="ingredients" style="width:300px">
+            </select>
+            <input type="submit" value="Cut 'em Out" name="cut_button">
+        </form>
+    {% endblock %}
+</body>
+</html>
