@@ -124,7 +124,10 @@
             <input placeholder="product name" name="product_name" value="{{ product_name }}"><br>
             <input placeholder="item code" name="item_code" value="{{ item_code }}"><br>
             <input placeholder="item category" name="item_category" value="{{ item_category }}"><br>
-            <input placeholder="ingredients" name="ingredients" value="{{ ingredients }}"><br>
+            {% for ingredient in ingredients %}
+            <input placeholder="ingredients" name="ingredient{{forloop.counter}}" value="{{ ingredient }}"><br>
+            {% endfor %}
+            <input type="hidden" name="ingredient_count" value="{{ingredients|length}}">
             <input type="submit" name="custom-item" value="Add Item">
         </form>
         <!--<form id="add_item_form" method="post" action="add_menu_item.html">-->

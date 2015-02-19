@@ -1,6 +1,7 @@
 from django import forms
 from models import Item, Ingredient, User
 from django.contrib.admin.widgets import FilteredSelectMultiple
+from django_select2 import widgets
 
 
 class ItemForm(forms.ModelForm):
@@ -24,10 +25,17 @@ class ItemForm(forms.ModelForm):
         js = ('/admin/jsi18n',)
 
 
-class LoginForm(forms.ModelForm):
-    username = forms.CharField()
-    password = forms.CharField()
+# class LoginForm(forms.ModelForm):
+#     username = forms.CharField()
+#     password = forms.CharField()
+#
+#     class Meta:
+#         model = User
+#         fields = ['username', 'password']
 
-    class Meta:
-        model = User
-        fields = ['username', 'password']
+
+# class IngredientSelectForm(forms.ModelForm):
+#     ingredient = forms.ModelMultipleChoiceField(
+#         queryset=Ingredient.objects.all(),
+#         widget=widgets.Select2MultipleWidget
+#     )

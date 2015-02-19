@@ -1,6 +1,8 @@
 from django.shortcuts import render, render_to_response
+from django import forms
+from django_select2 import widgets
 from json import dumps, loads
-from models import Purchase, Item, Ingredient
+from models import Purchase, Item, Ingredient, ChildProfile
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -9,7 +11,6 @@ from django.template import RequestContext, loader
 from django.db.models import Q
 from django_select2 import Select2View, NO_ERR_RESP
 from django.views.decorators.csrf import csrf_exempt
-from forms import ItemForm, LoginForm
 import urllib
 import requests
 import json
@@ -46,15 +47,29 @@ def add_menu_item(request):
         return render_to_response('scoop/vendor_templates/add_menu_item.html', context_dict, context)
     elif request.method == 'POST':
         print request.POST
+        ingredient_count = int(request.POST["ingredient_count"])
         item = Item()
         item.brand = request.POST["brand"]
         item.manufacturer = request.POST["manufacturer"]
         item.product_name = request.POST["product_name"]
         item.item_code = request.POST["item_code"]
         item.item_category = request.POST["item_category"]
-        item.ingredients = request.POST["ingredients"]
+        # item.ingredients = request.POST["ingredients"]
         item.save()
-        return redirect('login.html')
+        for i in range(ingredient_count):
+            input_name = "ingredient" + str(i+1)
+            input_value = request.POST[input_name]
+            results = Ingredient.objects.filter(ingredient=input_value)
+            if len(results) == 0:
+                ingredient = Ingredient()
+                ingredient.ingredient = input_value
+                ingredient.save()
+            else:
+                ingredient = results[0]
+
+            item.ingredient.add(ingredient)
+
+        return render(request, 'scoop/vendor_templates/add_menu_item.html')
     return render(request, 'scoop/vendor_templates/add_menu_item.html')
     #     form = ItemForm(request.POST)
     #     if form.is_valid():
@@ -69,14 +84,23 @@ def add_menu_item(request):
 
 
 def cutting_board(request):
-    return render(request, 'scoop/user_templates/cutting_board.html')
+    context = RequestContext(request)
+    ingredients = Ingredient.objects.all()
+    child = ChildProfile()
+    context_dict = {'ingredients': ingredients}
+    if request.method == "POST":
+        child.banned = request.POST["banned"]
+        child.banned.add()
+        return render_to_response('scoop/user_templates/cutting_board.html', context_dict, context)
+
+    return render_to_response('scoop/user_templates/cutting_board.html', context_dict, context)
 
 
-class CuttingBoardSelect2View(Select2View):
-    def get_results(self, request, term, page, context):
-        ingredients = Ingredient.objects.filter(Q(ingredient__icontains=term))
-        res = [ingredient.ingredient for ingredient in ingredients]
-        return NO_ERR_RESP, False, res  # Any error response, Has more results, options list
+# class CuttingBoardSelect2View(Select2View):
+#     def get_results(self, request, term, page, context):
+#         ingredients = Ingredient.objects.filter(Q(ingredient__icontains=term))
+#         res = [ingredient.ingredient for ingredient in ingredients]
+#         return NO_ERR_RESP, False, res  # Any error response, Has more results, options list
 
 
 def dom(request):
@@ -177,11 +201,11 @@ def register(request):
 
 
 
-# def scan(request):
-#     if request.method == "POST":
-#         url = "http://api.v3.factual.com/t/products-cpg-nutrition?q=" + request.POST["scan"]
-#         print url
-#     return render(request, 'scoop/scan.html')
+def scan(request):
+    if request.method == "POST":
+        url = "http://api.v3.factual.com/t/products-cpg-nutrition?q=" + request.POST["scan"]
+        print url
+    return render(request, 'scoop/scan.html')
 
 # from django.shortcuts import render, render_to_response
 # from json import dumps, loads
@@ -228,27 +252,27 @@ def register(request):
 #     return render(request, 'scoop/scan.html')
 #
 #
-# @csrf_exempt
-# def ajax(request):
-#     if request.method == "POST":
-#
-#         item = Item()
-#         item.item_code = request.POST["item_code"]
-#         item.save()
-#
-#     items = list(Item.objects.all())
-#     ajax_data = []
-#     for p in items:
-#         ingredients = []
-#         for i in p.ingredients.all():
-#             ingredients.append(i.ingredients)
-#         ajax_data.append({
-#             "scan": p.item_code,
-#             "item_name": p.item_name,
-#             "item_ingredients": ingredients,
-#         })
-#
-#     return HttpResponse(dumps(ajax_data), content_type="application/json")
+@csrf_exempt
+def ajax(request):
+    if request.method == "GET":
+
+        item = Item()
+        # item.item_code = request.GET["item_code"]
+        # item.save()
+
+    items = list(Item.objects.all())
+    ajax_data = []
+    for p in items:
+        ingredients = []
+        for i in p.ingredients.all():
+            ingredients.append(i)
+    ajax_data.append({
+        "scan": p.item_code,
+        "item_name": p.item_name,
+        "item_ingredients": ingredients,
+    })
+
+    return HttpResponse(dumps(ajax_data), content_type="application/json")
 #
 #
 # def dom(request):

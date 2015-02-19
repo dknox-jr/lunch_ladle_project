@@ -8,22 +8,6 @@
             The Cutting Board
         {% endblock %}
     </title>
-    <script>
-                $("#ingredients").select2();
-$("#checkbox").click(function(){
-    if($("#checkbox").is(':checked') ){
-        $("#ingredients > option").prop("selected","selected");
-        $("#ingredients").trigger("change");
-    }else{
-        $("#ingredients > option").removeAttr("selected");
-         $("#ingredients").trigger("change");
-     }
-});
-
-$("#button").click(function(){
-       alert($("#ingredients").val());
-});
-    </script>
 </head>
 <body>
     {% block form_header %}
@@ -31,12 +15,19 @@ $("#button").click(function(){
     {% endblock %}
 
     {% block form %}
-        <form id="f1" action="add_menu_item.html" method="get">
+        <form id="f1" action="cutting_board.html" method="post">
         {% csrf_token %}
             <select multiple id="ingredients" style="width:300px">
-            </select>
+                {% for ingredient in ingredients %}
+                    <option name="ingredient" value="{{ ingredient }}">{{ ingredient }}</option>
+                {% endfor %}
+            </select><br>
             <input type="submit" value="Cut 'em Out" name="cut_button">
         </form>
     {% endblock %}
+    <h3>{{ child }} May NOT Have:</h3>
+    {% for banned_item in banned %}
+    <p>{{ banned }}</p>
+    {% endfor %}
 </body>
 </html>
