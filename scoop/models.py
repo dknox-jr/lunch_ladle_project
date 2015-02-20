@@ -29,16 +29,21 @@ class Item(models.Model):
 
 
 class ChildProfile(models.Model):
-    name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     dob = models.DateField(verbose_name="Date of Birth")
+    grade = models.CharField(max_length=20)
     school = models.CharField(max_length=50, blank=True)
+    state = models.CharField(max_length=2)
     studentID = models.CharField(max_length=20, blank=True, verbose_name="Student ID")
+    photo = models.ImageField()
     llID = models.CharField(max_length=12, blank=True, verbose_name="Lunch Ladle ID")
     account_balance = models.ForeignKey(Account, blank=True, null=True)
+    notification_amount = models.IntegerField(blank=True, null=True)
     banned = models.ManyToManyField(Ingredient, blank=True)
 
     def __unicode__(self):
-        return unicode(self.name)
+        return unicode(self.llID)
 
 
 class UserProfile(models.Model):

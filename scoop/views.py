@@ -22,8 +22,27 @@ def about(request):
     return render(request, 'scoop/home_templates/about.html')
 
 
+def add_child(request):
+    if request.method == 'POST':
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+        dob = request.POST["dob"]
+        grade = request.POST["grade"]
+        school = request.POST["school"]
+        state = request.POST["state"]
+        studentID = request.POST["studentID"]
+        llID = request.POST["llID"]
+        account_balance = request.POST["account_balance"]
+        notification_amount = request.POST["notification_amount"]
+        context = RequestContext(request)
+        context_dict = {'first_name': first_name, 'last_name': last_name, 'dob': dob, 'grade': grade,
+                        'school': school, 'state': state, 'studentID': studentID, 'llID': llID,
+                        'account_balance': account_balance, 'notification_amount': notification_amount}
+        return render_to_response('scoop/')
+    return render(request, 'scoop/user_templates/add_child.html')
+
+
 def add_menu_item(request):
-    context = RequestContext(request)
     if request.method == 'GET' and 'stock_item' in request.GET:
         upc = request.GET["scan"]
         data = {"KEY": "2ReKJ6iWVlbUs0B10VixjPGSMw1uLW5UQtL7tJgC", "q": upc}
@@ -43,7 +62,8 @@ def add_menu_item(request):
         item_category = product["category"]
         ingredients = product["ingredients"]
         context = RequestContext(request)
-        context_dict = {'brand': brand, 'manufacturer': manufacturer, 'product_name': product_name, 'item_code': item_code, 'item_category': item_category, 'ingredients': ingredients}
+        context_dict = {'brand': brand, 'manufacturer': manufacturer, 'product_name': product_name,
+                        'item_code': item_code, 'item_category': item_category, 'ingredients': ingredients}
         return render_to_response('scoop/vendor_templates/add_menu_item.html', context_dict, context)
     elif request.method == 'POST':
         print request.POST

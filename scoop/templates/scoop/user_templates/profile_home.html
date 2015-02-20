@@ -19,9 +19,11 @@
 {% block lower_text %}
 {% if user.is_authenticated %}
 <p style="margin-top: 100px"></p>
+<a href="add_child.html">Add a Child Profile</a>
 <a href="../logout.html">Logout</a>
 {% else %}
 <h3>Please Login to your Account</h3>
+<a href="../login.html">Login</a>
 {% endif %}
 {% endblock %}
 
