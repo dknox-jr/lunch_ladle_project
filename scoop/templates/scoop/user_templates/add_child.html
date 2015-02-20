@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+        {% extends 'scoop/form_template.html' %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% if user.is_authenticated %}
+        {{ user.username }}'s Profile - Add Child
+        {% else %}
+        OOPS! Please Login
+        {% endif %}
+        {% endblock %}
+    </title>
+    <script>
+        function updateDOB() {
+            var dob = document.getElementById("dob");
+            dob.value = month + day + year;
+        }
+
+            var month = document.getElementById("birth_month");
+            month.addEventListener("change", updateDOB);
+            var day = document.getElementById("birth_day");
+            day.addEventListener("change", updateDOB);
+            var year = document.getElementById("birth_year");
+            year.addEventListener("change", updateDOB);
+
+    </script>
+</head>
+<body>
+{% block sidebar %}
+{% endblock %}
+{% if user.is_authenticated %}
+{% block form_header %}
+<h3>Create a New Child Profile</h3>
+{% endblock %}
+{% block form %}
+    <form id="add_child_form" method="post" action="add_child.html">
+        <input placeholder="First Name" name="first_name">
+        <input placeholder="Last Name" name="last_name">
+        <input id="dob" type="hidden" name="dob" value="">
+        <select name="birth_month">
+            <option name="jan">January</option>
+            <option name="feb">February</option>
+            <option name="mar">March</option>
+            <option name="apr">April</option>
+            <option name="may">May</option>
+            <option name="jun">June</option>
+            <option name="jul">July</option>
+            <option name="aug">August</option>
+            <option name="sep">September</option>
+            <option name="oct">October</option>
+            <option name="nov">November</option>
+            <option name="dec">December</option>
+        </select>
+        <select name="birth_day">
+            <option name="1">01</option>
+            <option name="2">02</option>
+            <option name="3">03</option>
+            <option name="4">04</option>
+            <option name="5">05</option>
+            <option name="6">06</option>
+            <option name="7">07</option>
+            <option name="8">08</option>
+            <option name="9">09</option>
+            <option name="10">10</option>
+            <option name="11">11</option>
+            <option name="12">12</option>
+            <option name="13">13</option>
+            <option name="14">14</option>
+            <option name="15">15</option>
+            <option name="16">16</option>
+            <option name="17">17</option>
+            <option name="18">18</option>
+            <option name="19">19</option>
+            <option name="20">20</option>
+            <option name="21">21</option>
+            <option name="22">22</option>
+            <option name="23">23</option>
+            <option name="24">24</option>
+            <option name="25">25</option>
+            <option name="26">26</option>
+            <option name="27">27</option>
+            <option name="28">28</option>
+            <option name="29">29</option>
+            <option name="30">30</option>
+            <option name="31">31</option>
+        </select>
+        <select name="birth_year">
+            <option name="80">1980</option>
+            <option name="81">1981</option>
+            <option name="82">1982</option>
+            <option name="83">1983</option>
+            <option name="84">1984</option>
+            <option name="85">1985</option>
+            <option name="86">1986</option>
+            <option name="87">1987</option>
+            <option name="88">1988</option>
+            <option name="89">1989</option>
+            <option name="90">1990</option>
+            <option name="91">1991</option>
+            <option name="92">1992</option>
+            <option name="93">1993</option>
+            <option name="94">1994</option>
+            <option name="95">1995</option>
+            <option name="96">1996</option>
+            <option name="97">1997</option>
+            <option name="98">1998</option>
+            <option name="99">1999</option>
+            <option name="00">2000</option>
+            <option name="01">2001</option>
+            <option name="02">2002</option>
+            <option name="03">2003</option>
+            <option name="04">2004</option>
+            <option name="05">2005</option>
+            <option name="06">2006</option>
+            <option name="07">2007</option>
+            <option name="08">2008</option>
+            <option name="09">2009</option>
+            <option name="10">2010</option>
+            <option name="11">2011</option>
+            <option name="12">2012</option>
+            <option name="13">2013</option>
+            <option name="14">2014</option>
+        </select><br>
+        <select name="grade">
+            <option name="grade_level">Grade Level</option>
+            <option name="pk">Preschool</option>
+            <option name="kg">Kindergarten</option>
+            <option name="1">1st Grade</option>
+            <option name="2">2nd Grade</option>
+            <option name="3">3rd Grade</option>
+            <option name="4">4th Grade</option>
+            <option name="5">5th Grade</option>
+            <option name="6">6th Grade</option>
+            <option name="7">7th Grade</option>
+            <option name="8">8th Grade</option>
+            <option name="9">9th Grade</option>
+            <option name="10">10th Grade</option>
+            <option name="11">11th Grade</option>
+            <option name="12">12th Grade</option>
+            <option name="fm">College Freshman</option>
+            <option name="sm">College Sophomore</option>
+            <option name="jr">College Junior</option>
+            <option name="sr">College Senior</option>
+            <option name="or">Other...</option>
+        </select>
+        <input placeholder="School Name" name="school">
+        <input placeholder="State" name="state">
+        <input placeholder="Student ID" name="studentID">
+        <input type="hidden" name="llID">
+        <input placeholder="Transfer Amount" name="account_balance">
+        <input placeholder="Notification Amount" name="notification_amount">
+        <input type="submit" value="submit">
+    </form>
+{% endblock %}
+{% endif %}
+{% block lower_text %}
+{% if user.is_authenticated %}
+<p style="margin-top: 100px"></p>
+<a href="../logout.html">Logout</a>
+{% else %}
+<h3>Please Login to your Account</h3>
+{% endif %}
+{% endblock %}
+
+</body>
+
+
+</html>
