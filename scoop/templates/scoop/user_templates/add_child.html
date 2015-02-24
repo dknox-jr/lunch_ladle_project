@@ -12,20 +12,38 @@
         {% endif %}
         {% endblock %}
     </title>
+    {% block scripts %}
     <script>
         function updateDOB() {
-            var dob = document.getElementById("dob");
-            dob.value = month + day + year;
+            var date_field = document.getElementById("dob");
+            var y = document.getElementById("birth_year");
+            var yy = y.selectedIndex;
+            var m = document.getElementById("birth_month");
+            var mm = m.selectedIndex;
+            var d = document.getElementById("birth_day");
+            var dd = d.selectedIndex;
+            date_field.value = y.options[yy].value + "-" + m.options[mm].value + "-" + d.options[dd].value;
         }
 
-            var month = document.getElementById("birth_month");
-            month.addEventListener("change", updateDOB);
-            var day = document.getElementById("birth_day");
-            day.addEventListener("change", updateDOB);
-            var year = document.getElementById("birth_year");
-            year.addEventListener("change", updateDOB);
+        function generateLLid() {
+            var llID_field = document.getElementById("llID");
+            var dob = document.getElementById("dob");
+            var fn = document.getElementById("first_name");
+            var ln = document.getElementById("last_name");
+            var sn = document.getElementById("state");
+            var yy = dob.value.slice(2, 4);
+            var mm = dob.value.slice(5, 7);
+            var dd = dob.value.slice(8, 10);
+            var ff = fn.value.charAt(0);
+            var fl = fn.value.charAt(1);
+            var lf = ln.value.charAt(0);
+            var ll = ln.value.charAt(1);
+            var st = sn.value;
+            llID_field.value = st + lf + ll + yy + ff + fl + mm + dd;
+        }
 
     </script>
+    {% endblock %}
 </head>
 <body>
 {% block sidebar %}
@@ -36,106 +54,110 @@
 {% endblock %}
 {% block form %}
     <form id="add_child_form" method="post" action="add_child.html">
-        <input placeholder="First Name" name="first_name">
-        <input placeholder="Last Name" name="last_name">
+        {% csrf_token %}
+        <input id="first_name" placeholder="First Name" name="first_name">
+        <input id="last_name" placeholder="Last Name" name="last_name">
         <input id="dob" type="hidden" name="dob" value="">
-        <select name="birth_month">
-            <option name="jan">January</option>
-            <option name="feb">February</option>
-            <option name="mar">March</option>
-            <option name="apr">April</option>
-            <option name="may">May</option>
-            <option name="jun">June</option>
-            <option name="jul">July</option>
-            <option name="aug">August</option>
-            <option name="sep">September</option>
-            <option name="oct">October</option>
-            <option name="nov">November</option>
-            <option name="dec">December</option>
+        <select id="birth_month" name="birth_month" onchange="updateDOB()">
+            <option name="default">Month</option>
+            <option name="jan" value="01">January</option>
+            <option name="feb" value="02">February</option>
+            <option name="mar" value="03">March</option>
+            <option name="apr" value="04">April</option>
+            <option name="may" value="05">May</option>
+            <option name="jun" value="06">June</option>
+            <option name="jul" value="07">July</option>
+            <option name="aug" value="08">August</option>
+            <option name="sep" value="09">September</option>
+            <option name="oct" value="10">October</option>
+            <option name="nov" value="11">November</option>
+            <option name="dec" value="12">December</option>
         </select>
-        <select name="birth_day">
-            <option name="1">01</option>
-            <option name="2">02</option>
-            <option name="3">03</option>
-            <option name="4">04</option>
-            <option name="5">05</option>
-            <option name="6">06</option>
-            <option name="7">07</option>
-            <option name="8">08</option>
-            <option name="9">09</option>
-            <option name="10">10</option>
-            <option name="11">11</option>
-            <option name="12">12</option>
-            <option name="13">13</option>
-            <option name="14">14</option>
-            <option name="15">15</option>
-            <option name="16">16</option>
-            <option name="17">17</option>
-            <option name="18">18</option>
-            <option name="19">19</option>
-            <option name="20">20</option>
-            <option name="21">21</option>
-            <option name="22">22</option>
-            <option name="23">23</option>
-            <option name="24">24</option>
-            <option name="25">25</option>
-            <option name="26">26</option>
-            <option name="27">27</option>
-            <option name="28">28</option>
-            <option name="29">29</option>
-            <option name="30">30</option>
-            <option name="31">31</option>
+        <select id="birth_day" name="birth_day" onchange="updateDOB()">
+            <option name="default">Day</option>
+            <option name="1" value="01">01</option>
+            <option name="2" value="02">02</option>
+            <option name="3" value="03">03</option>
+            <option name="4" value="04">04</option>
+            <option name="5" value="05">05</option>
+            <option name="6" value="06">06</option>
+            <option name="7" value="07">07</option>
+            <option name="8" value="08">08</option>
+            <option name="9" value="09">09</option>
+            <option name="10" value="10">10</option>
+            <option name="11" value="11">11</option>
+            <option name="12" value="12">12</option>
+            <option name="13" value="13">13</option>
+            <option name="14" value="14">14</option>
+            <option name="15" value="15">15</option>
+            <option name="16" value="16">16</option>
+            <option name="17" value="17">17</option>
+            <option name="18" value="18">18</option>
+            <option name="19" value="19">19</option>
+            <option name="20" value="20">20</option>
+            <option name="21" value="21">21</option>
+            <option name="22" value="22">22</option>
+            <option name="23" value="23">23</option>
+            <option name="24" value="24">24</option>
+            <option name="25" value="25">25</option>
+            <option name="26" value="26">26</option>
+            <option name="27" value="27">27</option>
+            <option name="28" value="28">28</option>
+            <option name="29" value="29">29</option>
+            <option name="30" value="30">30</option>
+            <option name="31" value="31">31</option>
         </select>
-        <select name="birth_year">
-            <option name="80">1980</option>
-            <option name="81">1981</option>
-            <option name="82">1982</option>
-            <option name="83">1983</option>
-            <option name="84">1984</option>
-            <option name="85">1985</option>
-            <option name="86">1986</option>
-            <option name="87">1987</option>
-            <option name="88">1988</option>
-            <option name="89">1989</option>
-            <option name="90">1990</option>
-            <option name="91">1991</option>
-            <option name="92">1992</option>
-            <option name="93">1993</option>
-            <option name="94">1994</option>
-            <option name="95">1995</option>
-            <option name="96">1996</option>
-            <option name="97">1997</option>
-            <option name="98">1998</option>
-            <option name="99">1999</option>
-            <option name="00">2000</option>
-            <option name="01">2001</option>
-            <option name="02">2002</option>
-            <option name="03">2003</option>
-            <option name="04">2004</option>
-            <option name="05">2005</option>
-            <option name="06">2006</option>
-            <option name="07">2007</option>
-            <option name="08">2008</option>
-            <option name="09">2009</option>
-            <option name="10">2010</option>
-            <option name="11">2011</option>
-            <option name="12">2012</option>
-            <option name="13">2013</option>
-            <option name="14">2014</option>
+        <select id="birth_year" name="birth_year" onchange="updateDOB()">
+            <option name="default">Year</option>
+            <option name="80" value="1980">1980</option>
+            <option name="81" value="1981">1981</option>
+            <option name="82" value="1982">1982</option>
+            <option name="83" value="1983">1983</option>
+            <option name="84" value="1984">1984</option>
+            <option name="85" value="1985">1985</option>
+            <option name="86" value="1986">1986</option>
+            <option name="87" value="1987">1987</option>
+            <option name="88" value="1988">1988</option>
+            <option name="89" value="1989">1989</option>
+            <option name="90" value="1990">1990</option>
+            <option name="91" value="1991">1991</option>
+            <option name="92" value="1992">1992</option>
+            <option name="93" value="1993">1993</option>
+            <option name="94" value="1994">1994</option>
+            <option name="95" value="1995">1995</option>
+            <option name="96" value="1996">1996</option>
+            <option name="97" value="1997">1997</option>
+            <option name="98" value="1998">1998</option>
+            <option name="99" value="1999">1999</option>
+            <option name="00" value="2000">2000</option>
+            <option name="01" value="2001">2001</option>
+            <option name="02" value="2002">2002</option>
+            <option name="03" value="2003">2003</option>
+            <option name="04" value="2004">2004</option>
+            <option name="05" value="2005">2005</option>
+            <option name="06" value="2006">2006</option>
+            <option name="07" value="2007">2007</option>
+            <option name="08" value="2008">2008</option>
+            <option name="09" value="2009">2009</option>
+            <option name="10" value="2010">2010</option>
+            <option name="11" value="2011">2011</option>
+            <option name="12" value="2012">2012</option>
+            <option name="13" value="2013">2013</option>
+            <option name="14" value="2014">2014</option>
         </select><br>
-        <select name="grade">
+        <select id="grade" name="grade">
             <option name="grade_level">Grade Level</option>
             <option name="pk">Preschool</option>
             <option name="kg">Kindergarten</option>
-            <option name="1">1st Grade</option>
-            <option name="2">2nd Grade</option>
-            <option name="3">3rd Grade</option>
-            <option name="4">4th Grade</option>
-            <option name="5">5th Grade</option>
-            <option name="6">6th Grade</option>
-            <option name="7">7th Grade</option>
-            <option name="8">8th Grade</option>
-            <option name="9">9th Grade</option>
+            <option name="01">1st Grade</option>
+            <option name="02">2nd Grade</option>
+            <option name="03">3rd Grade</option>
+            <option name="04">4th Grade</option>
+            <option name="05">5th Grade</option>
+            <option name="06">6th Grade</option>
+            <option name="07">7th Grade</option>
+            <option name="08">8th Grade</option>
+            <option name="09">9th Grade</option>
             <option name="10">10th Grade</option>
             <option name="11">11th Grade</option>
             <option name="12">12th Grade</option>
@@ -146,12 +168,13 @@
             <option name="or">Other...</option>
         </select>
         <input placeholder="School Name" name="school">
-        <input placeholder="State" name="state">
+        <input id="state" placeholder="State" name="state">
         <input placeholder="Student ID" name="studentID">
-        <input type="hidden" name="llID">
-        <input placeholder="Transfer Amount" name="account_balance">
-        <input placeholder="Notification Amount" name="notification_amount">
-        <input type="submit" value="submit">
+        <input type="file" value="Upload a Photo" name="photo">
+        <input id="llID" type="hidden" name="llID" value="">
+        <!--<input placeholder="Transfer Amount" name="account_balance">-->
+        <!--<input placeholder="Notification Amount" name="notification_amount">-->
+        <input type="submit" value="submit" onclick="generateLLid()">
     </form>
 {% endblock %}
 {% endif %}

@@ -24,21 +24,19 @@ def about(request):
 
 def add_child(request):
     if request.method == 'POST':
-        first_name = request.POST["first_name"]
-        last_name = request.POST["last_name"]
-        dob = request.POST["dob"]
-        grade = request.POST["grade"]
-        school = request.POST["school"]
-        state = request.POST["state"]
-        studentID = request.POST["studentID"]
-        llID = request.POST["llID"]
-        account_balance = request.POST["account_balance"]
-        notification_amount = request.POST["notification_amount"]
-        context = RequestContext(request)
-        context_dict = {'first_name': first_name, 'last_name': last_name, 'dob': dob, 'grade': grade,
-                        'school': school, 'state': state, 'studentID': studentID, 'llID': llID,
-                        'account_balance': account_balance, 'notification_amount': notification_amount}
-        return render_to_response('scoop/')
+        cp = ChildProfile()
+        cp.first_name = request.POST["first_name"]
+        cp.last_name = request.POST["last_name"]
+        cp.dob = request.POST["dob"]
+        cp.grade = request.POST["grade"]
+        cp.school = request.POST["school"]
+        cp.state = request.POST["state"]
+        cp.studentID = request.POST["studentID"]
+        cp.llID = request.POST["llID"]
+        # cp.account_balance = request.POST["account_balance"]
+        # cp.notification_amount = request.POST["notification_amount"]
+        cp.save()
+        return redirect('profile_home.html')
     return render(request, 'scoop/user_templates/add_child.html')
 
 

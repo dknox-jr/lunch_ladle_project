@@ -36,7 +36,7 @@ class ChildProfile(models.Model):
     school = models.CharField(max_length=50, blank=True)
     state = models.CharField(max_length=2)
     studentID = models.CharField(max_length=20, blank=True, verbose_name="Student ID")
-    photo = models.ImageField()
+    photo = models.ImageField(upload_to='profile_pics')
     llID = models.CharField(max_length=12, blank=True, verbose_name="Lunch Ladle ID")
     account_balance = models.ForeignKey(Account, blank=True, null=True)
     notification_amount = models.IntegerField(blank=True, null=True)
