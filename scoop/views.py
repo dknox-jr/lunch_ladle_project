@@ -2,7 +2,7 @@ from django.shortcuts import render, render_to_response
 from django import forms
 from django_select2 import widgets
 from json import dumps, loads
-from models import Purchase, Item, Ingredient, ChildProfile
+from models import Purchase, Item, Ingredient, ChildProfile, UserProfile
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -24,6 +24,7 @@ def about(request):
 
 def add_child(request):
     if request.method == 'POST':
+        up = UserProfile.objects.get(user=request.user)
         cp = ChildProfile()
         cp.first_name = request.POST["first_name"]
         cp.last_name = request.POST["last_name"]
@@ -36,6 +37,8 @@ def add_child(request):
         # cp.account_balance = request.POST["account_balance"]
         # cp.notification_amount = request.POST["notification_amount"]
         cp.save()
+        up.dependant.add(cp)
+
         return redirect('profile_home.html')
     return render(request, 'scoop/user_templates/add_child.html')
 
@@ -166,7 +169,17 @@ def logout(request):
 
 
 def profile_home(request):
-    return render(request, 'scoop/user_templates/profile_home.html')
+    context = RequestContext(request)
+    profile = UserProfile.objects.get(user=request.user)
+    print profile.dependant.all()
+    # dependant_list = profile.childprofile_set.all()
+    dependant_list = profile.dependant.all()
+    context_dict = {'dependants': dependant_list}
+    # print len(dependant_list)
+    print dependant_list
+    print request.user
+    # print dir(dependant_list[0])
+    return render_to_response('scoop/user_templates/profile_home.html', context_dict, context)
 
 
 def reg_log(request):
@@ -175,7 +188,10 @@ def reg_log(request):
 
 def register(request):
     if request.method == "POST":
-        User.objects.create_user(request.POST["username"], None, request.POST["password"])
+        user = User.objects.create_user(request.POST["username"], None, request.POST["password"])
+        profile = UserProfile()
+        profile.user = user
+        profile.save()
         return redirect('login.html')
     return render(request, 'scoop/home_templates/register.html')
 

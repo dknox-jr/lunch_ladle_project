@@ -15,6 +15,16 @@
 </head>
 <body>
 {% block sidebar %}
+{% if user.is_authenticated %}
+<h3>Your Children:</h3>
+{% if dependants %}
+{% for dependant in dependants %}
+    <a href="child_profile/{{ dependant.first_name }}">{{ dependant.first_name }}</a>
+{% endfor %}
+{% else %}
+<p>You have not created any profiles yet.</p>
+{% endif %}
+{% endif %}
 {% endblock %}
 {% block lower_text %}
 {% if user.is_authenticated %}

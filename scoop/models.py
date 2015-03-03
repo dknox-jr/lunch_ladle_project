@@ -49,10 +49,16 @@ class ChildProfile(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     account_balance = models.ForeignKey(Account, blank=True, null=True)
-    dependant = models.ManyToManyField(ChildProfile, blank=True)
+    dependant = models.ManyToManyField(ChildProfile, blank=True, null=True)
 
     def __unicode__(self):
         return self.user.username
+
+
+# def create_user_profile(self, sender, instance, created):
+#     if created:
+#         UserProfile.objects.create(user=instance)
+#     post_save.connect(create_user_profile, sender=User)
 
 
 class Vendor(models.Model):
