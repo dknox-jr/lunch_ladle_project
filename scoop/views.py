@@ -104,6 +104,15 @@ def add_menu_item(request):
     # return render_to_response('scoop/add_menu_item.html', {'form': form}, context)
 
 
+def child_profile(request, dependant_url):
+    context = RequestContext(request)
+    dependant_name = dependant_url
+    profile = UserProfile.objects.get(user=request.user)
+    dependant = profile.dependant.get(first_name=dependant_name)
+    context_dict = {'dependant_name': dependant_name, 'dependant': dependant}
+    return render_to_response('scoop/user_templates/child_profile.html', context_dict, context)
+
+
 def cutting_board(request):
     context = RequestContext(request)
     ingredients = Ingredient.objects.all()
@@ -171,14 +180,8 @@ def logout(request):
 def profile_home(request):
     context = RequestContext(request)
     profile = UserProfile.objects.get(user=request.user)
-    print profile.dependant.all()
-    # dependant_list = profile.childprofile_set.all()
     dependant_list = profile.dependant.all()
     context_dict = {'dependants': dependant_list}
-    # print len(dependant_list)
-    print dependant_list
-    print request.user
-    # print dir(dependant_list[0])
     return render_to_response('scoop/user_templates/profile_home.html', context_dict, context)
 
 

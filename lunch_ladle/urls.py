@@ -24,5 +24,5 @@ urlpatterns = patterns('',
     url(r'^admin/jsi18n/$', 'django.views.i18n.javascript_catalog'),
     url(r'^profile_home', 'scoop.views.profile_home', name='profile_home'),
     url(r'^cutting_board', 'scoop.views.cutting_board', name='cutting_board'),
-    url(r'^add_child', 'scoop.views.add_child', name='add_child'),)
-    # url(r'^child_profile/(?P<dependant_url>\w+)/$', 'scoop.views.child_profile', name='child_profile'),)
+    url(r'^add_child', 'scoop.views.add_child', name='add_child'),
+    url(r'^child_profile/(?P<dependant_url>\w+)/$', 'scoop.views.child_profile', name='child_profile'),)
