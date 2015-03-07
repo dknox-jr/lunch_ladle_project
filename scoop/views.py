@@ -2,7 +2,7 @@ from django.shortcuts import render, render_to_response
 from django import forms
 from django_select2 import widgets
 from json import dumps, loads
-from models import Purchase, Item, Ingredient, ChildProfile, UserProfile
+from models import Purchase, Item, Ingredient, ChildProfile, UserProfile, Account
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -20,6 +20,33 @@ factual = Factual('2ReKJ6iWVlbUs0B10VixjPGSMw1uLW5UQtL7tJgC', 'Xb0cE0OFsGp8zmGEN
 
 def about(request):
     return render(request, 'scoop/home_templates/about.html')
+
+
+def account(request):
+    context = RequestContext(request)
+    up = UserProfile.objects.get(user=request.user)
+    context_dict = {'balance': up.account_balance}
+    if request.method == 'POST':
+        up = UserProfile.objects.get(user=request.user)
+        a = Account()
+        if up.account_balance is None:
+            a.account_balance = request.POST["deposit_amount"]
+            a.save()
+            up.account_balance = a
+            up.save()
+            message = "Thank you for making your first deposit!"
+            context_dict = {'message': message, 'balance': up.account_balance}
+            return render_to_response('scoop/user_templates/account.html', context_dict, context)
+        else:
+            cb = int(str(up.account_balance))
+            a.account_balance = cb + int(request.POST["deposit_amount"])
+            a.save()
+            up.account_balance = a
+            up.save()
+            message = "Your deposit was successful."
+            context_dict = {'message': message, 'balance': up.account_balance}
+            return render_to_response('scoop/user_templates/account.html', context_dict, context)
+    return render_to_response('scoop/user_templates/account.html', context_dict, context)
 
 
 def add_child(request):
@@ -181,7 +208,8 @@ def profile_home(request):
     context = RequestContext(request)
     profile = UserProfile.objects.get(user=request.user)
     dependant_list = profile.dependant.all()
-    context_dict = {'dependants': dependant_list}
+    account_balance = profile.account_balance
+    context_dict = {'dependants': dependant_list, 'balance': account_balance}
     return render_to_response('scoop/user_templates/profile_home.html', context_dict, context)
 
 

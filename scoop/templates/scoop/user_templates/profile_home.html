@@ -25,6 +25,9 @@
 <p>You have not created any profiles yet.</p>
 {% endif %}
 {% endif %}
+<h3>Your Account Balance:</h3>
+<p>{{ balance }}</p>
+<a href="account.html">Deposit to your Account</a>
 {% endblock %}
 {% block lower_text %}
 {% if user.is_authenticated %}

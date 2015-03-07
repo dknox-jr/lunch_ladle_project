@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+        {% extends 'scoop/base_user.html' %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            The Cutting Board
+        {% endblock %}
+    </title>
+</head>
+<body>
+    {% block form_header %}
+    <h3>Your current balance is: {{ balance }}</h3>
+    {% endblock %}
+    {% block form %}
+        <p>Enter the amount to deposit into your account:</p>
+        <form id="deposit_funds" method="post" action="account.html">
+        {% csrf_token %}
+            <input id="deposit_amount" placeholder="cents" name="deposit_amount">
+            <input type="submit" value="deposit">
+        </form>
+    {% endblock %}
+    {% block lower_text %}
+    {{ message }}
+    {% endblock %}
+</body>
+</html>
