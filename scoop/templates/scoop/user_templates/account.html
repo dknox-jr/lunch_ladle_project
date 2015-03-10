@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>
         {% block title %}
-            The Cutting Board
+            {{ user.username }}'s Account
         {% endblock %}
     </title>
 </head>
@@ -15,14 +15,33 @@
     {% endblock %}
     {% block form %}
         <p>Enter the amount to deposit into your account:</p>
-        <form id="deposit_funds" method="post" action="account.html">
+        <form id="deposit_funds" method="post" name="deposit" action="account.html">
         {% csrf_token %}
             <input id="deposit_amount" placeholder="cents" name="deposit_amount">
-            <input type="submit" value="deposit">
+            <input type="submit" value="deposit" name="deposit">
         </form>
+    {% endblock %}
+        {% block form2 %}
+        {% if dependants %}
+        {% for dependant in dependants %}
+        <p> {{ dependant.first_name }}'s Account balance is {{ dependant.account_balance }}</p>
+        {% endfor %}
+        <p>or Transfer funds to your children's accounts</p>
+        <form id="transfer_funds" method="post" name="transfer" action="account.html">
+        {% csrf_token %}
+            <input id="transfer_amount" placeholder="cents" name="transfer_amount">
+            <select id="dependant_name" name="dependant_name">
+                {% for dependant in dependants %}
+                    <option name="{{ dependant.first_name }}">{{ dependant.first_name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="transfer" name="transfer">
+        </form>
+        {% endif %}
     {% endblock %}
     {% block lower_text %}
     {{ message }}
     {% endblock %}
+
 </body>
 </html>

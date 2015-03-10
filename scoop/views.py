@@ -25,11 +25,12 @@ def about(request):
 def account(request):
     context = RequestContext(request)
     up = UserProfile.objects.get(user=request.user)
-    context_dict = {'balance': up.account_balance}
-    if request.method == 'POST':
-        up = UserProfile.objects.get(user=request.user)
-        a = Account()
+    dependant_list = up.dependant.all()
+    context_dict = {'balance': up.account_balance, 'dependants': dependant_list}
+    if request.method == 'POST' and "deposit" in request.POST:
         if up.account_balance is None:
+            up = UserProfile.objects.get(user=request.user)
+            a = Account()
             a.account_balance = request.POST["deposit_amount"]
             a.save()
             up.account_balance = a
@@ -38,6 +39,7 @@ def account(request):
             context_dict = {'message': message, 'balance': up.account_balance}
             return render_to_response('scoop/user_templates/account.html', context_dict, context)
         else:
+            a = Account()
             cb = int(str(up.account_balance))
             a.account_balance = cb + int(request.POST["deposit_amount"])
             a.save()
@@ -45,6 +47,41 @@ def account(request):
             up.save()
             message = "Your deposit was successful."
             context_dict = {'message': message, 'balance': up.account_balance}
+            return render_to_response('scoop/user_templates/account.html', context_dict, context)
+    if request.method == 'POST' and 'transfer' in request.POST:
+        cc = up.dependant.get(first_name=request.POST["dependant_name"])
+        if cc.account_balance is None:
+            a = Account()
+            a.account_balance = request.POST["transfer_amount"]
+            a.save()
+            cc.account_balance = a
+            cc.save()
+            cb = int(str(up.account_balance))
+            b = Account()
+            b.account_balance = cb - int(request.POST["transfer_amount"])
+            b.save()
+            up.account_balance = b
+            up.save()
+            message = "Your transfer was successful."
+            dependant_list = up.dependant.all()
+            context_dict = {'balance': up.account_balance, 'message': message, 'dependants': dependant_list}
+            return render_to_response('scoop/user_templates/account.html', context_dict, context)
+        else:
+            a = Account()
+            cd = int(str(cc.account_balance))
+            a.account_balance = cd + int(request.POST["transfer_amount"])
+            a.save()
+            cc.account_balance = a
+            cc.save()
+            cb = int(str(up.account_balance))
+            b = Account()
+            b.account_balance = cb - int(request.POST["transfer_amount"])
+            b.save()
+            up.account_balance = b
+            up.save()
+            message = "Your transfer was successful."
+            dependant_list = up.dependant.all()
+            context_dict = {'balance': up.account_balance, 'message': message, 'dependants': dependant_list}
             return render_to_response('scoop/user_templates/account.html', context_dict, context)
     return render_to_response('scoop/user_templates/account.html', context_dict, context)
 
