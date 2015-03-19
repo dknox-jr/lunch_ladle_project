@@ -179,12 +179,14 @@ def child_profile(request, dependant_url):
 
 def cutting_board(request):
     context = RequestContext(request)
+    up = UserProfile.objects.get(user=request.user)
+    dependant_list = up.dependant.all()
     ingredients = Ingredient.objects.all()
-    child = ChildProfile()
-    context_dict = {'ingredients': ingredients}
+    context_dict = {'dependants': dependant_list, 'ingredients': ingredients}
     if request.method == "POST":
-        child.banned = request.POST["banned"]
-        child.banned.add()
+        cp = up.dependant.get(first_name=request.POST["dependants"])
+        cp.banned = request.POST["banned"]
+        cp.save()
         return render_to_response('scoop/user_templates/cutting_board.html', context_dict, context)
 
     return render_to_response('scoop/user_templates/cutting_board.html', context_dict, context)

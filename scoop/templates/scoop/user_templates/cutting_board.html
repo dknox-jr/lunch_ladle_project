@@ -17,11 +17,18 @@
     {% block form %}
         <form id="f1" action="cutting_board.html" method="post">
         {% csrf_token %}
-            <select multiple id="ingredients" style="width:300px">
+            <select id="dependants" name="dependants">
+                {% for dependant in dependants %}
+                    <option name="dependant" value="{{ dependant.first_name }}">{{ dependant.first_name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <select multiple id="ingredients" name="ingredients">
                 {% for ingredient in ingredients %}
-                    <option name="ingredient" value="{{ ingredient }}">{{ ingredient }}</option>
+                    <option id="{{ ingredient }}" name="ingredient" value="{{ ingredient }}">{{ ingredient }}</option>
                 {% endfor %}
             </select><br>
+            <input id="banned" type="hidden" value="">
             <input type="submit" value="Cut 'em Out" name="cut_button">
         </form>
     {% endblock %}
@@ -29,5 +36,11 @@
     {% for banned_item in banned %}
     <p>{{ banned }}</p>
     {% endfor %}
+    {% block postscripts %}
+    <script>
+        var values = $('#ingredients').val();
+        console.log(values);
+    </script>
+    {% endblock %}
 </body>
 </html>
